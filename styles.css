@@ -1,0 +1,142 @@
+/* style.css */
+
+/*
+  Global Box Sizing
+  Ensures consistent box model behavior across all elements.
+*/
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/*
+  Body Styles
+  Sets the global font family to 'Inter' and ensures smooth font rendering.
+  The background color and min-height are handled by Tailwind classes in HTML.
+*/
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased; /* Smoother font rendering on WebKit browsers */
+    -moz-osx-font-smoothing: grayscale;  /* Smoother font rendering on macOS (Firefox) */
+    line-height: 1.6; /* Improves readability */
+    color: #333; /* Default text color */
+}
+
+/*
+  Main Content Area Styling
+  Applies some basic scrollbar styling for better aesthetics, especially for long content.
+*/
+main {
+    /* Custom scrollbar for WebKit browsers */
+    &::-webkit-scrollbar {
+        width: 8px; /* Width of the scrollbar */
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Color of the scrollbar track */
+        border-radius: 10px; /* Rounded corners for the track */
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #a0aec0; /* Color of the scrollbar thumb */
+        border-radius: 10px; /* Rounded corners for the thumb */
+        transition: background 0.3s ease; /* Smooth transition on hover */
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #718096; /* Darker color on hover */
+    }
+}
+
+/*
+  Table Headings (Thead)
+  Ensures specific styling for table headers not fully covered by Tailwind or to enforce consistency.
+*/
+thead th {
+    background-color: #f9fafb; /* Light background for table headers */
+    border-bottom: 1px solid #e2e8f0; /* Bottom border for separation */
+}
+
+/*
+  Table Cells (Td)
+  Applies padding and vertical alignment for better table readability.
+*/
+tbody td {
+    padding-top: 12px; /* Top padding */
+    padding-bottom: 12px; /* Bottom padding */
+    vertical-align: middle; /* Vertically align content in the middle */
+}
+
+/*
+  Notification Dropdown Styling
+  Ensures the dropdown is initially hidden and positioned correctly when shown by JavaScript.
+*/
+#notification-dropdown {
+    /* Tailwind handles hidden, absolute, right-0, mt-2, etc. */
+    /* This rule is just to ensure any unforeseen default browser styles don't interfere */
+    min-width: 250px; /* Ensures a minimum width for the dropdown */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Deeper shadow */
+    border: 1px solid #e2e8f0; /* Subtle border */
+}
+
+/*
+  Dashboard Card Interactivity
+  Applies a slightly more pronounced hover effect and transition for dashboard cards.
+*/
+.dashboard-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transition for scale and shadow */
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px); /* Lifts the card slightly on hover */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Enhanced shadow on hover */
+}
+
+/*
+  Modal Overlay and Content Styling
+  Ensures the modal is properly centered and styled.
+*/
+.modal { /* Renamed from #dynamic-modal to be general for all modals */
+    transition: opacity 0.3s ease-in-out; /* Smooth fade in/out for the modal */
+}
+
+.modal > div { /* Target the modal content box */
+    transform: scale(0.95); /* Slightly scale down when hidden */
+    transition: transform 0.3s ease-in-out; /* Smooth scale transition */
+}
+
+.modal.open > div {
+    transform: scale(1); /* Scale to normal when open */
+}
+
+/*
+  Input Field Focus Styles
+  Custom focus ring for input fields to match branding.
+*/
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #3b82f6; /* Blue border on focus */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Blue shadow on focus */
+}
+
+/* Chart container responsiveness */
+.chart-container {
+    position: relative; /* Essential for Chart.js to scale correctly */
+    width: 100%; /* Take full width of parent */
+    /* Removed fixed height to allow flexible height based on min-height */
+    min-height: 250px; /* Ensure a minimum height for charts */
+    height: 100%; /* Allows flex items to properly size children */
+}
+
+/* Ensure canvas itself fills its container */
+.chart-container canvas {
+    display: block; /* Important for preventing extra space */
+    width: 100% !important; /* Override Chart.js inline width */
+    height: 100% !important; /* Override Chart.js inline height */
+}

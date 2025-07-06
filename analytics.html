@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Dashboard - Analytics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
+    <!-- Chart.js CDN for dynamic charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Make canvas responsive within its parent */
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex min-h-screen">
+    <!-- Sidebar will be loaded here by JavaScript -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-8 overflow-y-auto">
+        <!-- Header will be loaded here by JavaScript -->
+        <div id="header-placeholder"></div>
+
+        <!-- Analytics Content Sections -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Patient Demographics (Gender)</h2>
+                <div class="chart-container relative h-64 w-full">
+                    <canvas id="genderDistributionChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Departmental Patient Volume</h2>
+                <div class="chart-container relative h-64 w-full">
+                    <canvas id="departmentVolumeChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Patient Status Distribution</h2>
+                <div class="chart-container relative h-64 w-full">
+                    <canvas id="patientStatusChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Appointments Over Time</h2>
+                <div class="chart-container relative h-64 w-full">
+                    <canvas id="appointmentsTrendChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Charts for Age and Blood Type Demographics -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Patient Demographics (Age Groups)</h2>
+                <div class="chart-container relative h-64 w-full">
+                    <canvas id="ageDistributionChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Patient Demographics (Blood Type)</h2>
+                <div class="chart-container relative h-64 w-full">
+                    <canvas id="bloodTypeDistributionChart"></canvas>
+                </div>
+            </div>
+        </section>
+        <!-- End New Charts -->
+
+        <section class="bg-white p-6 rounded-xl shadow-md">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Overall Bed Occupancy</h2>
+            <div class="chart-container relative h-64 w-full">
+                <canvas id="bedOccupancyChart"></canvas>
+            </div>
+        </section>
+
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

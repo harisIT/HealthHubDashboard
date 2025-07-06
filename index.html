@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex min-h-screen">
+    <!-- Sidebar will be loaded here by JavaScript -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-8 overflow-y-auto">
+        <!-- Header will be loaded here by JavaScript -->
+        <div id="header-placeholder"></div>
+
+        <!-- KPI Cards Section -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Total Patients Card -->
+            <div class="bg-white p-6 rounded-xl shadow-md flex items-center justify-between dashboard-card" data-card="total-patients">
+                <div>
+                    <p class="text-gray-500 text-sm font-medium">Total Patients</p>
+                    <p class="text-3xl font-bold text-gray-800" id="total-patients-count">1,234</p>
+                </div>
+                <div class="p-3 bg-blue-100 rounded-full text-blue-600">
+                    <i class="ph-fill ph-users text-2xl"></i>
+                </div>
+            </div>
+
+            <!-- New Admissions Card -->
+            <div class="bg-white p-6 rounded-xl shadow-md flex items-center justify-between dashboard-card" data-card="admissions">
+                <div>
+                    <p class="text-gray-500 text-sm font-medium">New Admissions</p>
+                    <p class="text-3xl font-bold text-gray-800">45</p>
+                </div>
+                <div class="p-3 bg-green-100 rounded-full text-green-600">
+                    <i class="ph-fill ph-person-add text-2xl"></i>
+                </div>
+            </div>
+
+            <!-- Discharges Card -->
+            <div class="bg-white p-6 rounded-xl shadow-md flex items-center justify-between dashboard-card" data-card="discharges">
+                <div>
+                    <p class="text-gray-500 text-sm font-medium">Discharges Today</p>
+                    <p class="text-3xl font-bold text-gray-800">28</p>
+                </div>
+                <div class="p-3 bg-red-100 rounded-full text-red-600">
+                    <i class="ph-fill ph-person-remove text-2xl"></i>
+                </div>
+            </div>
+
+            <!-- Bed Occupancy Card -->
+            <div class="bg-white p-6 rounded-xl shadow-md flex items-center justify-between dashboard-card" data-card="bed-occupancy">
+                <div>
+                    <p class="text-gray-500 text-sm font-medium">Bed Occupancy</p>
+                    <p class="text-3xl font-bold text-gray-800">85%</p>
+                </div>
+                <div class="p-3 bg-yellow-100 rounded-full text-yellow-600">
+                    <i class="ph-fill ph-bed text-2xl"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity and Upcoming Appointments Section -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Recent Activity -->
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Recent Activity</h2>
+                <ul class="space-y-4">
+                    <li class="flex items-center">
+                        <div class="p-2 bg-blue-100 rounded-full mr-3 text-blue-600">
+                            <i class="ph-fill ph-file-medical text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-800 font-medium">New record for Patient ID: P-105</p>
+                            <p class="text-gray-500 text-sm">Updated by Dr. Emily White - 5 min ago</p>
+                        </div>
+                    </li>
+                    <li class="flex items-center">
+                        <div class="p-2 bg-green-100 rounded-full mr-3 text-green-600">
+                            <i class="ph-fill ph-calendar-check text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-800 font-medium">Appointment scheduled for Jane Smith</p>
+                            <p class="text-gray-500 text-sm">With Dr. Alex Kim - 30 min ago</p>
+                        </div>
+                    </li>
+                    <li class="flex items-center">
+                        <div class="p-2 bg-orange-100 rounded-full mr-3 text-orange-600">
+                            <i class="ph-fill ph-warning-circle text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-800 font-medium">Critical alert: Patient P-102 stable</p>
+                            <p class="text-gray-500 text-sm">ER Department - 1 hour ago</p>
+                        </div>
+                    </li>
+                </ul>
+                <button class="mt-6 w-full text-blue-600 hover:text-blue-800 font-medium py-2 rounded-lg transition-colors">View All Activity</button>
+            </div>
+
+            <!-- Upcoming Appointments -->
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Upcoming Appointments</h2>
+                <ul class="space-y-4">
+                    <li class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-800 font-medium">Michael Brown</p>
+                            <p class="text-gray-500 text-sm">Today, 1:00 PM - Dr. Sarah Lee</p>
+                        </div>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">General</span>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-800 font-medium">Olivia Wilson</p>
+                            <p class="text-gray-500 text-sm">Today, 2:30 PM - Dr. Alex Kim</p>
+                        </div>
+                        <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">Pediatrics</span>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-800 font-medium">David Miller</p>
+                            <p class="text-gray-500 text-sm">Tomorrow, 9:00 AM - Dr. Jessica Chen</p>
+                        </div>
+                        <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">Dermatology</span>
+                    </li>
+                </ul>
+                <button class="mt-6 w-full text-blue-600 hover:text-blue-800 font-medium py-2 rounded-lg transition-colors">View All Appointments</button>
+            </div>
+        </section>
+
+        <!-- Quick Actions Section -->
+        <section class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Quick Actions</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <button class="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors shadow-sm">
+                    <i class="ph-fill ph-calendar-plus text-3xl text-blue-600 mb-2"></i>
+                    <span class="text-gray-700 font-medium text-sm">Schedule Appointment</span>
+                </button>
+                <button class="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors shadow-sm">
+                    <i class="ph-fill ph-user-plus text-3xl text-green-600 mb-2"></i>
+                    <span class="text-gray-700 font-medium text-sm">Add New Patient</span>
+                </button>
+                <button class="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors shadow-sm">
+                    <i class="ph-fill ph-flask text-3xl text-purple-600 mb-2"></i>
+                    <span class="text-gray-700 font-medium text-sm">Order Lab Tests</span>
+                </button>
+                <button class="flex flex-col items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors shadow-sm">
+                    <i class="ph-fill ph-prescription text-3xl text-red-600 mb-2"></i>
+                    <span class="text-gray-700 font-medium text-sm">Prescribe Medication</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Dynamic Modal (for KPI Card Details) -->
+        <div id="dynamic-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+            <div class="bg-white p-8 rounded-xl shadow-2xl w-11/12 md:w-1/2 lg:w-1/3 relative">
+                <button class="close-modal-button absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl">
+                    <i class="ph-bold ph-x-circle"></i>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800 mb-4" id="modal-title"></h3>
+                <div id="modal-content" class="text-gray-700 text-base">
+                    <!-- Content will be injected here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

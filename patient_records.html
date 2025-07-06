@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Dashboard - Patient Records</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex min-h-screen">
+    <!-- Sidebar will be loaded here by JavaScript -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-8 overflow-y-auto">
+        <!-- Header will be loaded here by JavaScript -->
+        <div id="header-placeholder"></div>
+
+        <!-- Patient List Section -->
+        <section class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">All Patients</h2>
+                <!-- Add Patient Button - Visibility managed by JS based on role -->
+                <button id="add-patient-button" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center">
+                    <i class="ph-fill ph-user-plus mr-2"></i> Add New Patient
+                </button>
+            </div>
+
+            <!-- Search and Filter Controls for Patients -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="relative">
+                    <input type="text" id="patient-search-input" placeholder="Search by name or ID..."
+                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                </div>
+                <div>
+                    <select id="patient-gender-filter"
+                            class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <option value="">Filter by Gender (All)</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <select id="patient-department-filter"
+                            class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <option value="">Filter by Department (All)</option>
+                        <option value="General Practice">General Practice</option>
+                        <option value="Pediatrics">Pediatrics</option>
+                        <option value="Dermatology">Dermatology</option>
+                        <option value="Orthopedics">Orthopedics</option>
+                        <option value="Cardiology">Cardiology</option>
+                        <option value="Emergency">Emergency</option>
+                        <option value="Surgery">Surgery</option>
+                        <option value="Oncology">Oncology</option>
+                    </select>
+                </div>
+                <div>
+                    <select id="patient-status-filter"
+                            class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <option value="">Filter by Status (All)</option>
+                        <option value="Stable">Stable</option>
+                        <option value="Critical">Critical</option>
+                        <option value="Admitted">Admitted</option>
+                        <option value="Under Treatment">Under Treatment</option>
+                        <option value="Awaiting Discharge">Awaiting Discharge</option>
+                    </select>
+                </div>
+                 <div>
+                    <select id="patient-bloodtype-filter"
+                            class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <option value="">Filter by Blood Type (All)</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                    </select>
+                </div>
+                <button id="reset-patient-filters" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors">
+                    Reset Filters
+                </button>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg">Patient Name</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Patient ID</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date of Birth</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gender</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Blood Type</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Department</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="patients-table-body">
+                        <!-- Patient rows will be dynamically added here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- Pagination Controls -->
+            <div class="mt-6 flex justify-between items-center">
+                <button id="patient-prev-page" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors">Previous</button>
+                <span id="patient-pagination-info" class="text-gray-600 text-sm">Page 1 of 10</span>
+                <button id="patient-next-page" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors">Next</button>
+            </div>
+        </section>
+
+        <!-- New Patient Modal (initially hidden) -->
+        <div id="new-patient-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+            <div class="bg-white p-8 rounded-xl shadow-2xl w-11/12 md:w-1/2 lg:w-1/3 relative">
+                <button class="close-modal-button absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl">
+                    <i class="ph-bold ph-x-circle"></i>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800 mb-6">Add New Patient</h3>
+                <form id="new-patient-form" class="space-y-4">
+                    <div>
+                        <label for="patient-name" class="block text-sm font-medium text-gray-700 mb-1">Patient Name</label>
+                        <input type="text" id="patient-name" required
+                               class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label for="patient-id" class="block text-sm font-medium text-gray-700 mb-1">Patient ID</label>
+                        <input type="text" id="patient-id" required
+                               class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label for="patient-dob" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                        <input type="date" id="patient-dob" required
+                               class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label for="patient-gender" class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                        <select id="patient-gender" required
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="patient-bloodtype" class="block text-sm font-medium text-gray-700 mb-1">Blood Type</label>
+                        <select id="patient-bloodtype" required
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select Blood Type</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                     <div>
+                        <label for="patient-department" class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                        <select id="patient-department" required
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select Department</option>
+                            <option value="General Practice">General Practice</option>
+                            <option value="Pediatrics">Pediatrics</option>
+                            <option value="Dermatology">Dermatology</option>
+                            <option value="Orthopedics">Orthopedics</option>
+                            <option value="Cardiology">Cardiology</option>
+                            <option value="Emergency">Emergency</option>
+                            <option value="Surgery">Surgery</option>
+                            <option value="Oncology">Oncology</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="patient-status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                        <select id="patient-status" required
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select Status</option>
+                            <option value="Stable">Stable</option>
+                            <option value="Critical">Critical</option>
+                            <option value="Admitted">Admitted</option>
+                            <option value="Under Treatment">Under Treatment</option>
+                            <option value="Awaiting Discharge">Awaiting Discharge</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow">
+                        Add Patient
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- View Patient Modal (initially hidden) -->
+        <div id="view-patient-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+            <div class="bg-white p-8 rounded-xl shadow-2xl w-11/12 md:w-1/2 lg:w-1/3 relative">
+                <button class="close-modal-button absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl">
+                    <i class="ph-bold ph-x-circle"></i>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Patient Details: <span id="view-patient-name-display"></span></h3>
+                <div class="text-gray-700 text-base space-y-2">
+                    <p><strong>Patient ID:</strong> <span id="view-patient-id-display"></span></p>
+                    <p><strong>Date of Birth:</strong> <span id="view-patient-dob-display"></span></p>
+                    <p><strong>Gender:</strong> <span id="view-patient-gender-display"></span></p>
+                    <p><strong>Blood Type:</strong> <span id="view-patient-bloodtype-display"></span></p>
+                    <p><strong>Department:</strong> <span id="view-patient-department-display"></span></p>
+                    <p><strong>Status:</strong> <span id="view-patient-status-display"></span></p>
+                    <p><strong>Last Update:</strong> <span id="view-patient-last-update-display"></span></p>
+                    <!-- More details can be added here (e.g., medical history, contact info) -->
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-lg mb-2">Medical History (Sample)</h4>
+                        <ul class="list-disc pl-5 text-sm">
+                            <li>Diagnosed with Type 2 Diabetes in 2010.</li>
+                            <li>Appendectomy in 2015.</li>
+                            <li>Allergies: Penicillin.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Patient Modal (initially hidden) -->
+        <div id="edit-patient-modal" class="modal fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden">
+            <div class="bg-white p-8 rounded-xl shadow-2xl w-11/12 md:w-1/2 lg:w-1/3 relative">
+                <button class="close-modal-button absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl">
+                    <i class="ph-bold ph-x-circle"></i>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800 mb-6">Edit Patient Record</h3>
+                <form id="edit-patient-form" class="space-y-4">
+                    <input type="hidden" id="edit-patient-original-id"> <!-- To store original ID for lookup -->
+                    <div>
+                        <label for="edit-patient-name" class="block text-sm font-medium text-gray-700 mb-1">Patient Name</label>
+                        <input type="text" id="edit-patient-name" required
+                               class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label for="edit-patient-id" class="block text-sm font-medium text-gray-700 mb-1">Patient ID</label>
+                        <input type="text" id="edit-patient-id" required
+                               class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" disabled>
+                               <!-- Patient ID usually not editable, added disabled attribute -->
+                    </div>
+                    <div>
+                        <label for="edit-patient-dob" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                        <input type="date" id="edit-patient-dob" required
+                               class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label for="edit-patient-gender" class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                        <select id="edit-patient-gender" required
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="edit-patient-bloodtype" class="block text-sm font-medium text-gray-700 mb-1">Blood Type</label>
+                        <select id="edit-patient-bloodtype" required
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select Blood Type</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                     <div>
+                        <label for="edit-patient-department" class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                        <select id="edit-patient-department" required
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select Department</option>
+                            <option value="General Practice">General Practice</option>
+                            <option value="Pediatrics">Pediatrics</option>
+                            <option value="Dermatology">Dermatology</option>
+                            <option value="Orthopedics">Orthopedics</option>
+                            <option value="Cardiology">Cardiology</option>
+                            <option value="Emergency">Emergency</option>
+                            <option value="Surgery">Surgery</option>
+                            <option value="Oncology">Oncology</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="edit-patient-status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                        <select id="edit-patient-status" required
+                                class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select Status</option>
+                            <option value="Stable">Stable</option>
+                            <option value="Critical">Critical</option>
+                            <option value="Admitted">Admitted</option>
+                            <option value="Under Treatment">Under Treatment</option>
+                            <option value="Awaiting Discharge">Awaiting Discharge</option>
+                        </select>
+                    </div>
+                    <div class="flex justify-between mt-6">
+                        <button type="submit" class="w-1/2 bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow mr-2">
+                            Save Changes
+                        </button>
+                        <!-- Delete Patient Button - Visibility managed by JS based on role -->
+                        <button type="button" id="delete-patient-button" class="w-1/2 bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors shadow ml-2">
+                            Delete Patient
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
+

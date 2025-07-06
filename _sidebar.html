@@ -1,0 +1,66 @@
+<aside class="w-64 bg-gray-800 text-white flex flex-col p-4 shadow-lg h-screen sticky top-0">
+    <!-- Logo and App Name -->
+    <div class="flex items-center mb-8 px-2">
+        <i class="ph-bold ph-first-aid-kit text-4xl text-blue-400 mr-3"></i>
+        <h2 class="text-2xl font-bold">HealthHub</h2>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex-1">
+        <ul class="space-y-2">
+            <li>
+                <a href="index.html" class="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors">
+                    <i class="ph-fill ph-house text-xl mr-3"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="patient_records.html" class="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors">
+                    <i class="ph-fill ph-folder-notch-open text-xl mr-3"></i>
+                    Patient Records
+                </a>
+            </li>
+            <li>
+                <a href="appointments.html" class="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors">
+                    <i class="ph-fill ph-calendar-blank text-xl mr-3"></i>
+                    Appointments
+                </a>
+            </li>
+            <!-- Analytics link visibility controlled by JS based on role -->
+            <li id="sidebar-analytics-link">
+                <a href="analytics.html" class="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors">
+                    <i class="ph-fill ph-chart-line text-xl mr-3"></i>
+                    Analytics
+                </a>
+            </li>
+            <li>
+                <a href="settings.html" class="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors">
+                    <i class="ph-fill ph-gear-six text-xl mr-3"></i>
+                    Settings
+                </a>
+            </li>
+            <li>
+                <a href="help.html" class="flex items-center p-3 rounded-lg hover:bg-gray-700 transition-colors">
+                    <i class="ph-fill ph-question text-xl mr-3"></i>
+                    Help
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- User Profile and Logout at the bottom -->
+    <div class="mt-auto pt-4 border-t border-gray-700">
+        <div class="flex items-center mb-4">
+            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-3 shadow" id="user-initials-avatar">
+                <!-- Initials set by JS -->
+            </div>
+            <div>
+                <p class="font-semibold text-sm" id="current-user-display-sidebar">Loading User...</p>
+                <p class="text-xs text-gray-400" id="current-user-role-sidebar">Loading Role...</p>
+            </div>
+        </div>
+        <button id="logout-button-sidebar" class="w-full flex items-center justify-center py-2 px-4 bg-red-600 rounded-lg text-white font-semibold hover:bg-red-700 transition-colors shadow">
+            <i class="ph-fill ph-sign-out mr-2"></i> Log Out
+        </button>
+    </div>
+</aside>
